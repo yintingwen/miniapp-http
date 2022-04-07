@@ -1,0 +1,16 @@
+{
+  "name": "miniprogram-http",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/weixin-app": "^2.9.3",
+    "rollup": "^2.70.1"
+  }
+}
