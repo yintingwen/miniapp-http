@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 function tt() {
-    wx.showToast({
+    wx?.showToast({
         title: '1111'
     });
 }

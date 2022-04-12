@@ -2,7 +2,7 @@ import type { HttpRequestConfig } from './types/http'
 import { HttpRequestTask } from './HttpRequestTask'
 import { HttpRequestInterceptors, HttpResponseInterceptors } from './HttpInterator'
 
-class HttpRequest {
+export default class HttpRequest {
   // _task: HttpRequestTask
   _baseConfig: HttpRequestConfig
 
@@ -25,12 +25,12 @@ class HttpRequest {
       const requestOption = {
         ...this._baseConfig, 
         ...currentOption,
-        success: (e) => {
-          const p = this.interceptors.response.run(e)
+        success: (e: any) => {
+          const p = this.interceptors.response.run('success', e)
           resolve(p)
         },
-        error: (e) => {
-          const p = this.interceptors.response.run(e)
+        error: (e: any) => {
+          const p = this.interceptors.response.run('error', e)
           rejcet(p)
         }
       }

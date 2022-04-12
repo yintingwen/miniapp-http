@@ -12,7 +12,7 @@ class HttpInterceptors {
    * @param func 
    * @returns 
    */
-  on (type: HttpInteratorType , func: Function) {
+  on (type: HttpInteratorType , func: HttpInteratorCallback) {
     if (typeof func !== 'function') return
     this.idMap[this.id] =  { type, value: func }
     this.addCallback(type, func)
@@ -35,7 +35,7 @@ class HttpInterceptors {
   }
 
 
-  addCallback (type: HttpInteratorType,  func: Function) {
+  addCallback (type: HttpInteratorType,  func: HttpInteratorCallback) {
     const targetList = type === 'success' ? this.successList : this.errorList
     targetList.push(func)
   }
@@ -45,15 +45,15 @@ class HttpInterceptors {
    * @param type 
    * @param func 
    */
-  deleteCallback (type: HttpInteratorType,  func: Function) {
+  deleteCallback (type: HttpInteratorType,  func: HttpInteratorCallback) {
     const targetList = type === 'success' ? this.successList : this.errorList
     const index = targetList.indexOf(func)
     targetList.splice(index, 1)
   }
 
-  run (type: HttpInteratorType) {
+  run (type: HttpInteratorType, e: any) {
     const targetList = type === 'success' ? this.successList : this.errorList
-    let p = Promise.resolve()
+    let p = Promise.resolve(e)
     for (let index = 0; index < targetList.length; index++) {
       p = p.then( targetList[index], targetList[index] )
     }
@@ -67,16 +67,14 @@ export class HttpRequestInterceptors extends HttpInterceptors {
     super()
   }
 
-  use (success: Function) {
+  use (success: HttpInteratorCallback) {
     if (typeof success !== 'function') return
     this.on('success', success)
   }
-
-  run () {}
 }
 
 export class HttpResponseInterceptors extends HttpInterceptors {
-  use (success: Function, error: Function) {
+  use (success: HttpInteratorCallback, error: HttpInteratorCallback) {
     if (typeof success === 'function') {
       this.on('success', success)
     }
@@ -84,7 +82,5 @@ export class HttpResponseInterceptors extends HttpInterceptors {
       this.on('error', error)
     }
   } 
-
-  run () {}
 }
 

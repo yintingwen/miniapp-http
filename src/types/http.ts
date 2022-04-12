@@ -13,7 +13,7 @@ export type HttpInteratorType = 'success' | 'error'
 export interface HttpInteratorMap {
   [id: string]: {
     type: HttpInteratorType,
-    value: Function
+    value: HttpInteratorCallback
   }
 }
 
